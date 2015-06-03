@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tarena.entity.Option" 
+	table="t_option">
+		<id name="oid" type="integer" column="oid">
+			<generator class="identity"></generator>
+		</id>
+		<property name="optionA" type="string" column="optionA"></property>
+		<property name="optionB" type="string" column="optionB"></property>
+		<property name="optionC" type="string" column="optionC"></property>
+		<property name="optionD" type="string" column="optionD"></property>
+		<property name="questionId" type="integer" column="question_id"></property>
+	</class>
+</hibernate-mapping>

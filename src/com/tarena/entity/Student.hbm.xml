@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tarena.entity.Student"
+	table="t_student">
+		<id name="sid" type="integer" column="sid">
+			<generator class="identity"></generator>
+		</id>
+		<property name="username" type="string" column="username"></property>
+		<property name="password" type="string" column="password"></property>
+		<property name="name" type="string" column="name"></property>
+		<property name="sex" type="string" column="sex"></property>
+		<property name="birth" type="date" column="birth"></property>
+		<property name="grade" type="string" column="class"></property>
+		<property name="address" type="string" column="address"></property>
+		<property name="tele" type="string" column="tele"></property>
+		<property name="mobile" type="string" column="mobile"></property>
+		<property name="email" type="string" column="email"></property>
+		<property name="remarks" type="string" column="remarks"></property>
+	</class>
+
+</hibernate-mapping>

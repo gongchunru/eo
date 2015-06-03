@@ -1,0 +1,6 @@
+td.TableBody1{background-color: #FFFFFF;line-height : normal ;text-align: center;}
+td.TableBody2{background-color: #FFFFFF;line-height : normal ;}
+td.TableBody3{background-color: #E4F3FF;line-height : normal ;}
+.tableBorder1{width:85%;border: 1px; background-color: #AFB2C4;}
+.tableBorder2{width:97%;border: 1px #DEDEDE solid; background-color: #EFEFEF;}
+input,select,Textarea,option{font-family:Tahoma,Verdana,"宋体"; font-size: 12px; line-height: 15px;COLOR: #000000;}

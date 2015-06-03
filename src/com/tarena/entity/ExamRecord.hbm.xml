@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tarena.entity.ExamRecord"
+	table="t_examRecord">
+		<id name="erid" type="integer" column="erid">
+			<generator class="identity"></generator>
+		</id>
+		<property name="examPaperId" type="integer" column="examPaper_id">
+		</property>
+		<property name="score" type="integer" column="score">
+		</property>
+		<property name="studentId" type="integer" column="student_id"></property>
+	</class>
+</hibernate-mapping>

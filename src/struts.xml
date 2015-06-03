@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+	<package name="common" extends="json-default">
+		<interceptors>
+			<interceptor name="checkLogin"
+				class="com.tarena.web.interceptor.CheckLoginInterceptor" />
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="checkLogin" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<!-- 设置当前Action的默认拦截器 -->
+		<default-interceptor-ref name="loginStack" />
+		<global-results>
+			<result name="login">
+				<!-- <param name="namespace"> /login </param> <param name="actionName"> 
+					toLogin </param> -->
+				/WEB-INF/main/noPermission.jsp
+			</result>
+		</global-results>
+	</package>
+
+	<package name="login" namespace="/login" extends="struts-default">
+		<action name="toLogin">
+			<result name="success">
+				/WEB-INF/main/login_index.jsp
+			</result>
+		</action>
+		<action name="checkLogin" class="checkLoginAction">
+			<result name="fail">/WEB-INF/main/login_index.jsp</result>
+			<result name="ok">/WEB-INF/superAdmin/superAdmin_index.jsp</result>
+			<result name="success">
+				/WEB-INF/admin/admin_index.jsp
+			</result>
+			<result name="good">
+				/WEB-INF/student/student_index.jsp
+			</result>
+		</action>
+		<action name="logout" class="logoutAction">
+			<result name="success">
+				/WEB-INF/main/login_index.jsp
+			</result>
+		</action>
+	</package>
+
+	<!-- 超级管理员 -->
+	<package name="super" namespace="/super" extends="common">
+		<action name="toManageSelf">
+			<result name="success">
+				/WEB-INF/superAdmin/manageSelfInfo/manageSelfInfo.jsp
+			</result>
+		</action>
+		<!-- 个人信息 -->
+		<action name="toViewInfo">
+			<result name="success">
+				/WEB-INF/superAdmin/manageSelfInfo/viewInfo.jsp
+			</result>
+		</action>
+		<!-- 修改密码 -->
+		<action name="toModifyPwd">
+			<result name="success">
+				/WEB-INF/superAdmin/manageSelfInfo/modifyPassword.jsp
+			</result>
+		</action>
+		<action name="modifyPwd" class="modifyPwdAction">
+			<result name="success" type="redirectAction">
+				<param name="namespace">
+					/login
+				</param>
+				<param name="actionName">
+					toLogin
+				</param>
+			</result>
+			<result name="fail">
+				/WEB-INF/superAdmin/manageSelfInfo/modifyPassword.jsp
+			</result>
+		</action>
+		<!-- 修改姓名 -->
+		<action name="toModifyName">
+			<result name="success">
+				/WEB-INF/superAdmin/manageSelfInfo/modifyName.jsp
+			</result>
+		</action>
+		<action name="modifyName" class="modifyNameAction">
+			<result name="success">
+				/WEB-INF/superAdmin/superAdmin_index.jsp
+			</result>
+			<result name="fail">
+				/WEB-INF/superAdmin/manageSelfInfo/modifyName.jsp
+			</result>
+		</action>
+
+		<!-- 管理管理员 -->
+		<action name="toManageAdmin">
+			<result name="success">
+				/WEB-INF/superAdmin/manageAdmin/manageAdmin.jsp
+			</result>
+		</action>
+
+		<!-- 校验管理员的名字 把json类型的map输出给回调函数 -->
+		<action name="checkAdminName" class="checkAdminNameAction">
+			<result name="success" type="json">
+				<param name="root">map</param>
+			</result>
+		</action>
+		<action name="toAddAdmin">
+			<result name="success">
+				/WEB-INF/superAdmin/manageAdmin/addAdmin.jsp
+			</result>
+		</action>
+		<action name="addAdmin" class="addAdminAction">
+			<result name="success">
+				/WEB-INF/superAdmin/manageAdmin/addSuccess.jsp
+			</result>
+			<result name="fail">
+				/WEB-INF/superAdmin/manageAdmin/addFail.jsp
+			</result>
+		</action>
+		<!-- 查询管理员 -->
+		<action name="toViewAdmin">
+			<result name="success">
+				/WEB-INF/superAdmin/manageAdmin/viewAdmin.jsp
+			</result>
+		</action>
+		<action name="findAdmin" class="findAdminAction">
+			<result name="success">
+				/WEB-INF/superAdmin/manageAdmin/viewAdmin.jsp
+			</result>
+		</action>
+		<!-- 删除管理员 -->
+		<action name="deleteAdmin" class="deleteAdminAction">
+			<result name="success">
+				/WEB-INF/superAdmin/manageAdmin/viewAdmin.jsp
+			</result>
+		</action>
+	</package>
+
+	<!-- 管理员 -->
+	<package name="admin" namespace="/admin" extends="common">
+		<action name="toManageSelf">
+			<result name="success">
+				/WEB-INF/admin/manageSelfInfo/manageSelfInfo.jsp
+			</result>
+		</action>
+		<action name="toViewInfo">
+			<result name="success">
+				/WEB-INF/admin/manageSelfInfo/viewInfo.jsp
+			</result>
+		</action>
+		<action name="toModifyPwd">
+			<result name="success">
+				/WEB-INF/admin/manageSelfInfo/modifyPassword.jsp
+			</result>
+		</action>
+		<action name="modifyPwd" class="modifyAdminPwdAction">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/login</param>
+				<param name="actionName">toLogin</param>
+			</result>
+			<result name="fail">
+				/WEB-INF/admin/manageSelfInfo/modifyPassword.jsp
+			</result>
+		</action>
+		<action name="toModifyName">
+			<result name="success">
+				/WEB-INF/admin/manageSelfInfo/modifyName.jsp
+			</result>
+		</action>
+		<action name="modifyName" class="modifyAdminNameAction">
+			<result name="success">
+				/WEB-INF/admin/admin_index.jsp
+			</result>
+			<result name="fail">
+				/WEB-INF/admin/manageSelfInfo/modifyName.jsp
+			</result>
+		</action>
+		<!-- 管理学生 -->
+		<action name="toManageStudent">
+			<result name="success">
+				/WEB-INF/admin/manageStudent/manageStudent.jsp
+			</result>
+		</action>
+		<action name="toAddStudent">
+			<result name="success">
+				/WEB-INF/admin/manageStudent/addStudent.jsp
+			</result>
+		</action>
+		<!-- 添加学生 -->
+		<action name="addStudent" class="addStudentAction">
+			<result name="success">
+				/WEB-INF/admin/manageStudent/addSuccess.jsp
+			</result>
+			<result name="fail">
+				/WEB-INF/admin/manageStudent/addFail.jsp
+			</result>
+		</action>
+
+		<action name="checkStudentName" class="checkStudentNameAction">
+			<result name="success" type="json">
+				<param name="root">maps</param>
+			</result>
+		</action>
+		<action name="toViewStudent">
+			<result name="success">
+				/WEB-INF/admin/manageStudent/viewStudent.jsp
+			</result>
+		</action>
+		<action name="findStudent" class="findStudentAction">
+			<result name="success">
+				/WEB-INF/admin/manageStudent/viewStudent.jsp
+			</result>
+		</action>
+		<action name="viewStudentInfo" class="viewStudentInfoAction">
+			<result name="success">
+				/WEB-INF/admin/manageStudent/studentInfo.jsp
+			</result>
+		</action>
+
+		<action name="viewStudentInfo" class="viewStudentInfoAction">
+			<result name="success">
+				/WEB-INF/admin/manageStudent/studentInfo.jsp
+			</result>
+		</action>
+		<!-- 管理试卷 -->
+		<action name="toManageExamPaper">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/manageExamPaper.jsp
+			</result>
+		</action>
+		<action name="toAddExamPaper">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/addExamPaper.jsp
+			</result>
+		</action>
+		<action name="addExamPaper" class="addExamPaperAction">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/addSuccess.jsp
+			</result>
+			<result name="fail">
+				/WEB-INF/admin/manageExamPaper/addFail.jsp
+			</result>
+		</action>
+
+		<action name="toModifyExamPaper" class="modifyExamPaperFormAction">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/modifyExamPaper.jsp
+			</result>
+		</action>
+		<action name="modifyExamPaper" class="modifyExamPaperAction">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/viewExamPaper.jsp
+			</result>
+		</action>
+
+		<action name="toViewExamPaper">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/viewExamPaper.jsp
+			</result>
+		</action>
+		<action name="findExamPaper" class="findExamPaperAction">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/viewExamPaper.jsp
+			</result>
+		</action>
+		<action name="toViewExamPaperDetail" class="findQuestionFormAction">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/examPaperDetail.jsp
+			</result>
+		</action>
+		<action name="toAddQuestion1" class="toAddQuestion1Action">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/manageQuestion/addQuestion1.jsp
+			</result>
+		</action>
+		<action name="addQuestion1" class="addQuestion1Action">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/manageQuestion/addQuestion2.jsp
+			</result>
+			<result name="fail">
+				/WEB-INF/admin/manageExamPaper/manageQuestion/addQuestion1.jsp
+			</result>
+		</action>
+		<action name="addQuestion2" class="addQuestion2Action">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/manageQuestion/addSuccess.jsp
+			</result>
+			<result name="fail">
+				/WEB-INF/admin/manageExamPaper/manageQuestion/addQuestion2.jsp
+			</result>
+		</action>
+		<action name="deleteQuestion" class="deleteQuestionAction">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/manageQuestion/information1.jsp
+			</result>
+		</action>
+
+		<!-- 修改 -->
+		<action name="toModifyQuestion" class="modifyQuesionFormAction">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/manageQuestion/modifyQuestion1.jsp
+			</result>
+		</action>
+		<action name="modifyQuestion" class="modifyQuestionAction">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/manageQuestion/modifyQuestion2.jsp
+			</result>
+		</action>
+		<action name="modifyOption" class="modifyOptionAction">
+			<result name="success">
+				/WEB-INF/admin/manageExamPaper/examPaperDetail.jsp
+			</result>
+		</action>
+		<!-- 管理成绩 -->
+		<action name="toManageExamRecord">
+			<result name="success">
+				/WEB-INF/admin/manageExamRecord/manageExamRecord.jsp
+			</result>
+		</action>
+		<action name="toHighClass">
+			<result name="success">
+				/WEB-INF/admin/manageExamRecord/highClass.jsp
+			</result>
+		</action>
+		<action name="viewExamrecord" class="findExamRecordAction">
+			<result name="success">
+				/WEB-INF/admin/manageExamRecord/viewExamRecord.jsp
+			</result>
+		</action>
+	</package>
+
+	<!--学生 -->
+	<package name="student" namespace="/student" extends="common">
+		<action name="toManageSelf">
+			<result name="success">
+				/WEB-INF/student/manageSelfInfo/manageSelfInfo.jsp
+			</result>
+		</action>
+		<action name="toViewInfo">
+			<result name="success">
+				/WEB-INF/student/manageSelfInfo/viewInfo.jsp
+			</result>
+		</action>
+		<action name="toModifyInfo">
+			<result name="success">
+				/WEB-INF/student/manageSelfInfo/modifyInfo.jsp
+			</result>
+		</action>
+		<action name="modifyInfo" class="modifyInfoAction">
+			<result name="success">
+				/WEB-INF/student/manageSelfInfo/information.jsp
+			</result>
+			<result name="fail">
+				/WEB-INF/student/manageSelfInfo/modifyInfo.jsp
+			</result>
+		</action>
+
+		<action name="toExamonline">
+			<result name="success">
+				/WEB-INF/student/examonline/examonline.jsp
+			</result>
+		</action>
+		<action name="toFindExamPaper">
+			<result name="success">
+				/WEB-INF/student/examonline/viewExamPaper.jsp
+			</result>
+		</action>
+		<action name="viewExamPaper" class="viewExamPaperAction">
+			<result name="success">
+				/WEB-INF/student/examonline/viewExamPaper.jsp
+			</result>
+		</action>
+		<action name="toExamPaperDetail" class="viewExamPaperDetailAction">
+			<result name="success">
+				/WEB-INF/student/examonline/examPaperDetail.jsp
+			</result>
+		</action>
+		<action name="toStuManageExamRecord">
+			<result name="success">
+				/WEB-INF/student/manageExamRecord/manageExamRecord.jsp
+			</result>
+		</action>
+		<action name="toStuViewExamRecord">
+			<result name="success">
+				/WEB-INF/student/manageExamRecord/viewSelfExamRecord.jsp
+			</result>
+		</action>
+		<action name="stuViewExamRecord" class="viewSelfExamRecordAction">
+			<result name="success">
+				/WEB-INF/student/manageExamRecord/viewSelfExamRecord.jsp
+			</result>
+		</action>
+		<action name="examResult" class="examResultAction">
+			<result name="success">
+				/WEB-INF/student/examonline/examResult.jsp
+			</result>
+		</action>
+	</package>
+</struts>
+    

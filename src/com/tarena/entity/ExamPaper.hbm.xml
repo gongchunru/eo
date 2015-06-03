@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tarena.entity.ExamPaper"
+	table="t_examPaper">
+		<id name="epid" type="integer" column="epid">
+			<generator class="identity"></generator>
+		</id>
+		<property name="name" type="string" column="name"></property>
+		<property name="totalTime" type="string" column="totalTime"></property>
+		<set name="questions" lazy="false">
+			<key column="examPaper_id"></key>
+			<one-to-many class="com.tarena.entity.Question"/>
+		</set>
+	</class>
+</hibernate-mapping>
